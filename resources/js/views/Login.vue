@@ -88,7 +88,7 @@ export default {
                         if (this.$route.params.nextUrl != null) {
                             this.$router.push(this.$route.params.nextUrl)
                         } else {
-                            this.$router.push((is_admin == 1 ? 'Admin' : 'UserBoard'))
+                            this.$router.push((is_admin == 1 ? 'Admin' : '/'))
                         }
                     }
                 });

@@ -51,7 +51,10 @@
                                 <input v-model="product.units" >
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <a href="#" @click="editingItem = product" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                <button type="button" @click="editingItem = product"  class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Edit
+                                    <ExternalLinkIcon class="ml-2 -mr-0.5 h-4 w-4" aria-hidden="true" />
+                                </button>
                             </td>
                         </tr>
                         </tbody>
@@ -66,10 +69,10 @@
         </div>
     </div>
 
-
 </template>
 
 <script>
+import { ExternalLinkIcon } from '@heroicons/vue/outline'
 import Modal from './ProductModal'
 
 export default {
@@ -80,7 +83,13 @@ export default {
             addingProduct: null
         }
     },
-    components: {Modal},
+
+    components: {
+        Modal,
+        ExternalLinkIcon,
+    },
+
+
     beforeMount() {
         axios.get('/api/products/').then(response => this.products = response.data)
     },
@@ -118,6 +127,7 @@ export default {
             axios.post("/api/products/", {name, units, price, description, image})
                 .then(response => this.products.push(product))
         }
-    }
+    },
+
 }
 </script>

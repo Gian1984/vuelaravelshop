@@ -60,15 +60,9 @@
                 <div class="-mt-px flex divide-x divide-gray-200">
                     <div class="w-0 flex-1 flex">
                         <router-link :to=" '/products/' + product.id " class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
-                            <MailIcon class="w-5 h-5 text-gray-400" aria-hidden="true" />
+                            <SearchIcon class="w-5 h-5 text-gray-400" aria-hidden="true" />
                             <span class="ml-3">View</span>
                         </router-link>
-                    </div>
-                    <div class="-ml-px w-0 flex-1 flex">
-                        <a :href="`tel:${product.units}`" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
-                            <PhoneIcon class="w-5 h-5 text-gray-400" aria-hidden="true" />
-                            <span class="ml-3">Call</span>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -84,7 +78,7 @@
 
 <script>
 
-import { MailIcon, PhoneIcon, ChevronRightIcon, ExternalLinkIcon} from '@heroicons/vue/solid'
+import { SearchIcon, PhoneIcon, ChevronRightIcon, ExternalLinkIcon} from '@heroicons/vue/solid'
 
 
 export default {
@@ -97,7 +91,7 @@ export default {
         axios.get("api/products/").then(response => this.products = response.data)
     },
     components: {
-        MailIcon,
+        SearchIcon,
         PhoneIcon,
         ChevronRightIcon,
         ExternalLinkIcon

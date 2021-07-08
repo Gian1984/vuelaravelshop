@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-col">
-        <h1 class="mt-10 p-2 font-bold">Order Active</h1>
+    <div class="flex flex-col mb-10">
+        <h1 class="mt-10 p-2 font-bold">Faqs & questions</h1>
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -8,58 +8,53 @@
                         <thead class="bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Product
+                                Name
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Quantity
+                                Phone
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Delivery Address
+                                Email
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                is Delivered?
+                                Was answered?
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Cost
+                                Question
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Action
+                                Reply
                             </th>
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(order,index) in orders" @key="index">
+                        <tr v-for="(faq,index) in faqs" @key="index">
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <img class="h-10 w-10 rounded-full" :src="order.product.image" alt="" />
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">
+                                        Order ref. n°{{ faq.order_id }}
                                     </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">
-                                            Order ref. n°{{ index+1 }}
-                                        </div>
-                                        <div class="text-sm text-gray-500">
-                                            {{ order.product.name }}
-                                        </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ faq.name }}
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{order.quantity}}</div>
+                                <div class="text-sm text-gray-900">{{faq.phone}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{order.address}}
+                                {{faq.email}}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    {{order.is_delivered == 1? "Yes" : "No"}}
+                                    {{faq.was_answered == 1? "Yes" : "No"}}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                € {{order.quantity * order.product.price}}
+                               {{faq.question}}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                <button v-if="order.is_delivered == 0" type="button" @click="deliver(index)"  class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button v-if="faq.was_answered == 0" type="button" @click="answer(index)"  class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     Send
                                     <MailIcon class="ml-2 -mr-0.5 h-4 w-4" aria-hidden="true" />
                                 </button>
@@ -81,17 +76,17 @@ import { MailIcon,} from '@heroicons/vue/outline'
 export default {
     data() {
         return {
-            orders : []
+            faqs : []
         }
     },
     beforeMount(){
-        axios.get('/api/orders/').then(response => this.orders = response.data)
+        axios.get('/api/faqs/').then(response => this.faqs = response.data)
     },
     methods: {
-        deliver(index) {
-            let order = this.orders[index]
-            axios.patch(`/api/orders/${order.id}/deliver`).then(response => {
-                this.orders[index].is_delivered = 1
+        answer(index) {
+            let faq = this.faqs[index]
+            axios.patch(`/api/faqs/${faq.id}/replied`).then(response => {
+                this.faqs[index].was_answered = 1
                 this.$forceUpdate()
             })
         }

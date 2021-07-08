@@ -22,10 +22,10 @@
                             </div>
                         </div>
                         <div class="hidden md:flex md:items-center md:space-x-6">
-                            <a href="/Login" class="text-base font-medium text-white hover:text-gray-300">
+                            <a href="/Login"  class="text-base font-medium text-white hover:text-gray-300">
                                 Sign in
                             </a>
-                            <a href="/Register" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
+                            <a href="/Register"  class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
                                 Sign up
                             </a>
                             <a href="/"  v-if="isLoggedIn" @click="logout" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
@@ -150,7 +150,7 @@
                     </div>
                     <div class="mt-12 border-t border-gray-200 py-8">
                         <p class="text-base text-gray-400 xl:text-center">
-                            &copy; 2020 Workflow, Inc. All rights reserved.
+                            &copy; 2021 CreateWeb.info . All rights reserved.
                         </p>
                     </div>
                 </div>
@@ -172,6 +172,7 @@ const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Features', href: '#' },
     { name: 'Marketplace', href: '/Marketplace' },
+    { name: 'Orders', href: '/userboard' },
     { name: 'Company', href: '#' },
 ]
 
