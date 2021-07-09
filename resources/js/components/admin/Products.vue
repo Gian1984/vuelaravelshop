@@ -33,7 +33,7 @@
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
-                                            {{ index+1 }}
+                                            Product ref. n° {{ product.id }}
                                         </div>
                                         <div class="text-sm text-gray-500">
                                             {{ product.name }}

@@ -173,7 +173,7 @@ const navigation = [
     { name: 'Features', href: '#' },
     { name: 'Marketplace', href: '/Marketplace' },
     { name: 'Orders', href: '/userboard' },
-    { name: 'Company', href: '#' },
+    { name: 'Company', href: '/company' },
 ]
 
 const footerNavigation = {

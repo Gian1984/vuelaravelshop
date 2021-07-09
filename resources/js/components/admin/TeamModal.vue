@@ -13,37 +13,55 @@
                     </p>
                     <div>
                         <div class="flex justify-between">
-                            <label for="name" class="block text-sm font-medium text-gray-700">Name :</label>
+                            <label for="firstname" class="block text-sm font-medium text-gray-700">Firstname :</label>
                         </div>
                         <div class="mt-1">
-                            <input type="text" v-model="data.name" name="name" id="name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Ex: shoes" />
+                            <input type="text" v-model="data.firstname" name="firstname" id="firstname" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Ex: John" />
                         </div>
                     </div>
 
                     <div>
                         <div class="flex justify-between">
-                            <label for="units" class="block text-sm font-medium text-gray-700 mt-2">Units :</label>
+                            <label for="lastname" class="block text-sm font-medium text-gray-700">Lastname :</label>
                         </div>
                         <div class="mt-1">
-                            <input type="text" v-model="data.units" name="units" id="units" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Quantity" />
+                            <input type="text" v-model="data.lastname" name="lastname" id="lastname" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Ex: Doe" />
                         </div>
                     </div>
 
                     <div>
                         <div class="flex justify-between">
-                            <label for="price" class="block text-sm font-medium text-gray-700 mt-2">Price :</label>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mt-2">Email :</label>
                         </div>
                         <div class="mt-1">
-                            <input type="text" v-model="data.price" name="price" id="price" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Ex: 200" />
+                            <input type="text" v-model="data.email" name="email" id="email" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="example@example.com" />
                         </div>
                     </div>
 
                     <div>
                         <div class="flex justify-between">
-                            <label for="description" class="block text-sm font-medium text-gray-700 mt-2">Description :</label>
+                            <label for="role" class="block text-sm font-medium text-gray-700 mt-2">Role :</label>
                         </div>
                         <div class="mt-1">
-                            <textarea v-model="data.description" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" rows="3" placeholder="Enter description."></textarea>
+                            <input type="text" v-model="data.role" name="role" id="role" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Ex: CTO" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between">
+                            <label for="description" class="block text-sm font-medium text-gray-700 mt-2">Quote :</label>
+                        </div>
+                        <div class="mt-1">
+                            <textarea v-model="data.quote" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" rows="3" placeholder="Enter quote."></textarea>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between">
+                            <label for="author" class="block text-sm font-medium text-gray-700 mt-2">Author :</label>
+                        </div>
+                        <div class="mt-1">
+                            <input type="text" v-model="data.author" name="author" id="author" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Ex: Albert Einstein" />
                         </div>
                     </div>
 
@@ -53,7 +71,7 @@
                         </div>
                         <div class="mt-1 flex justify-center">
                               <span class="inline-block overflow-hidden">
-                                  <img :src="data.image" v-show="data.image != null">
+                                  <img class="w-32 h-32" :src="data.image" v-show="data.image != null">
                               </span>
                         </div>
                         <div class="text-center mt-2">
@@ -70,6 +88,7 @@
                         <button type="button" @click="uploadFile" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Done
                         </button>
+
                         <button type="button" @click="close" class="mt-5 ml-3 inline-flex items-center px-4 py-2 border border-indigo-600 text-sm font-medium rounded-full shadow-sm text-indigo-600 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Leave
                         </button>
@@ -154,8 +173,9 @@ input[type="file"] {
 </style>
 
 <script>
+
 export default {
-    props: ['product'],
+    props: ['member'],
     data() {
         return {
             attachment: null
@@ -163,14 +183,16 @@ export default {
     },
     computed: {
         data: function() {
-            if (this.product != null) {
-                return this.product
+            if (this.member != null) {
+                return this.member
             }
             return {
-                name: "",
-                units: "",
-                price: "",
-                description: "",
+                firstname: "",
+                lastname: "",
+                email: "",
+                role: "",
+                quote: "",
+                author: "",
                 image: false
             }
         }
@@ -184,17 +206,19 @@ export default {
                 let formData = new FormData();
                 formData.append("image", this.attachment)
                 let headers = {'Content-Type': 'multipart/form-data'}
-                axios.post("/api/upload-file", formData, {headers}).then(response => {
-                    this.product.image = response.data
-                    this.$emit('close', this.product)
+                axios.post("/api/upload-member", formData, {headers}).then(response => {
+                    this.member.image = response.data
+                    this.$emit('close', this.member)
                 })
             } else {
-                this.$emit('close', this.product)
+                this.$emit('close', this.member)
             }
         },
         close(){
-            this.$emit('close', this.product)
-        }
-    }
+            this.$emit('close', this.member)
+        },
+
+    },
+
 }
 </script>

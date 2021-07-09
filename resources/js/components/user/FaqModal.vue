@@ -96,6 +96,7 @@
     background-color: rgba(0, 0, 0, .5);
     display: table;
     transition: opacity .3s ease;
+    overflow-y: initial !important
 }
 .modal-wrapper {
     display: table-cell;
@@ -104,14 +105,23 @@
 .modal-container {
     border: 4px solid #4338CA;
     border-radius: 25px;
-    width: 500px;
+    width: 400px;
+    height: 600px;
     margin: 0 auto;
     padding: 20px 30px;
     background-color: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
     font-family: Helvetica, Arial, sans-serif;
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
+
+.modal-container::-webkit-scrollbar {
+    display: none;
+}
+
 .modal-header h3 {
     margin-top: 0;
     color: #42b983;

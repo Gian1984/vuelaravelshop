@@ -18,6 +18,7 @@
             <Orders></Orders>
             <Products></Products>
             <Faqs></Faqs>
+            <Team></Team>
             <component :is="activeComponent"></component>
 
         </div>
@@ -30,6 +31,7 @@ import Users from '../components/admin/Users'
 import Products from '../components/admin/Products'
 import Orders from '../components/admin/Orders'
 import Faqs from '../components/admin/Faqs'
+import Team from '../components/admin/Team'
 
 export default {
     data() {
@@ -39,7 +41,7 @@ export default {
         }
     },
     components: {
-        Main, Users, Products, Orders, Faqs
+        Main, Users, Products, Orders, Faqs, Team
     },
     beforeMount() {
 

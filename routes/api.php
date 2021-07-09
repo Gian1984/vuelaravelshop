@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\TeamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,15 @@ Route::get('delete/{id}',[ProductController::class,'deliverOrder']);
 
 Route::post('login', [UserController::class,'login']);
 Route::post('register', [UserController::class,'register']);
+
 Route::get('/products', [ProductController::class,'index']);
 Route::post('/upload-file', [ProductController::class,'uploadFile']);
 Route::get('/products/{product}', [ProductController::class,'show']);
+
+Route::get('/team', [TeamController::class,'index']);
+Route::post('/upload-member', [TeamController::class,'uploadMember']);
+Route::get('/team/{member}', [TeamController::class,'show']);
+
 Route::post('/upload-faq', [FaqController::class,'uploadFaq']);
 
 Route::group(['middleware' => 'auth:api'], function() {
@@ -32,10 +39,16 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('users/{user}', [UserController::class, 'show']);
     Route::patch('users/{user}', [UserController::class, 'update']);
     Route::get('users/{user}/orders', [UserController::class, 'showOrders']);
-    Route::patch('products/{product}/units/add', [ProductController::class,'updateUnits']);
+
     Route::patch('orders/{order}/deliver', [OrderController::class,'deliverOrder']);
-    Route::patch('faqs/{faq}/replied', [FaqController::class,'repliedFaq']);
     Route::resource('/orders', OrderController::class);
-    Route::resource('/faqs', FaqController::class);
+
+    Route::patch('products/{product}/units/add', [ProductController::class,'updateUnits']);
     Route::resource('/products', ProductController::class)->except(['index', 'show']);
+
+    Route::patch('faqs/{faq}/replied', [FaqController::class,'repliedFaq']);
+    Route::resource('/faqs', FaqController::class);
+
+
+    Route::resource('/team', TeamController::class)->except(['index', 'show']);
 });

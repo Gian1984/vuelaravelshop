@@ -10,6 +10,7 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import SingleProduct from "./views/SingleProduct";
 import UserBoard from "./views/UserBoard";
+import Company from "./views/Company";
 
 
 const router = createRouter({
@@ -75,6 +76,11 @@ const router = createRouter({
             path: "/products/:id",
             name: "single-products",
             component: SingleProduct,
+        },
+        {
+            path: "/company",
+            name: "Company",
+            component: Company,
         },
         {
             path: "/userboard",

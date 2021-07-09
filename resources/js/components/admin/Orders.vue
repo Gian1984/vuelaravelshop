@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
-                                            Order ref. n°{{ index+1 }}
+                                            Order ref. n° {{ order.id }}
                                         </div>
                                         <div class="text-sm text-gray-500">
                                             {{ order.product.name }}

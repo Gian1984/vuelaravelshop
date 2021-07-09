@@ -27,7 +27,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         <tr v-for="(user,index) in users" @key="index">
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ index+1 }}
+                                {{ user.id }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ user.name }}
