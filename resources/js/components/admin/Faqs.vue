@@ -59,6 +59,11 @@
                                     <MailIcon class="ml-2 -mr-0.5 h-4 w-4" aria-hidden="true" />
                                 </button>
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button type="button" @click="removeFaq(faq.id, index)" class="inline-flex items-center p-1.5 border border-transparent rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    <TrashIcon class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -70,7 +75,7 @@
 </template>
 
 <script>
-import { MailIcon,} from '@heroicons/vue/outline'
+import { MailIcon, TrashIcon} from '@heroicons/vue/outline'
 
 
 export default {
@@ -82,6 +87,7 @@ export default {
     beforeMount(){
         axios.get('/api/faqs/').then(response => this.faqs = response.data)
     },
+
     methods: {
         answer(index) {
             let faq = this.faqs[index]
@@ -89,11 +95,24 @@ export default {
                 this.faqs[index].was_answered = 1
                 this.$forceUpdate()
             })
-        }
+        },
+        removeFaq(faqID, index){
+
+
+            axios.delete("/api/faqs/"+ faqID)
+                .then( response => this.faqs.splice(index))
+
+                .catch(error =>{
+                    console.log(error);
+                })
+        },
+
     },
 
     components: {
         MailIcon,
+        TrashIcon
     },
+
 }
 </script>

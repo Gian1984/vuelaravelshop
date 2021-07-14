@@ -50,4 +50,9 @@ class FaqController extends Controller
             'message'   => $status ? 'Reply sent!' : 'Error answering Order'
         ]);
     }
+
+    public function destroy($id)
+    {
+        return Faq::findOrFail($id)->delete();
+    }
 }

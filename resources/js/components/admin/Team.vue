@@ -28,7 +28,7 @@
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="(member,index) in team" @key="index">
+                        <tr v-for="(member,index) in members" @key="index">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
-                                            {{ member.firstname }}
+                                            {{ member.id }} {{ member.firstname }}
                                         </div>
                                         <div class="text-sm text-gray-500">
                                             {{ member.lastname }}
@@ -62,6 +62,11 @@
                                     <ExternalLinkIcon class="ml-2 -mr-0.5 h-4 w-4" aria-hidden="true" />
                                 </button>
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button type="button" @click="removeMember(member.id, index)" class="inline-flex items-center p-1.5 border border-transparent rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    <TrashIcon class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -78,13 +83,13 @@
 </template>
 
 <script>
-import { ExternalLinkIcon } from '@heroicons/vue/outline'
+import { ExternalLinkIcon, TrashIcon } from '@heroicons/vue/outline'
 import Modal from './TeamModal'
 
 export default {
     data() {
         return {
-            team: [],
+            members: [],
             editingMember: null,
             addingMember: null
         }
@@ -93,11 +98,12 @@ export default {
     components: {
         Modal,
         ExternalLinkIcon,
+        TrashIcon,
     },
 
 
     beforeMount() {
-        axios.get('/api/team/').then(response => this.team = response.data)
+        axios.get('/api/team/').then(response => this.members = response.data)
     },
     methods: {
         newMember() {
@@ -114,7 +120,7 @@ export default {
         endEditing(member) {
             this.editingMember = null
 
-            let index = this.team.indexOf(member)
+            let index = this.members.indexOf(member)
             let firstname = member.firstname
             let lastname = member.lastname
             let email = member.email
@@ -124,7 +130,7 @@ export default {
 
 
             axios.put(`/api/team/${member.id}`, {firstname, lastname, email, role, quote, author})
-                .then(response => this.team[index] = member)
+                .then(response => this.members[index] = member)
         },
         addMember(member) {
             this.addingMember = null
@@ -138,8 +144,19 @@ export default {
             let image = member.image
 
             axios.post("/api/team/", {firstname, lastname, email, role, quote, author, image})
-                .then(response => this.team.push(member))
-        }
+                .then(response => this.members.push(member))
+        },
+
+        removeMember(memberID, index){
+
+
+            axios.delete("/api/team/"+ memberID)
+                .then( response => this.members.splice(index))
+
+                .catch(error =>{
+                    console.log(error);
+                })
+        },
     },
 
 }

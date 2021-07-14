@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+
+
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -46,26 +47,31 @@ class TeamController extends Controller
         return response()->json(asset("images/$name"),201);
     }
 
-    public function update(Request $request, Team $member)
+    public function update(Request $request, $id)
     {
 
-        $status = $member->update(
-            $request->only(['firstname', 'lastname', 'email', 'role', 'image', 'quote', 'author'])
+        $member = Team::findOrFail($id);
+
+        $member->update(
+            $request->only([
+                'firstname',
+                'lastname',
+                'email',
+                'role',
+                'image',
+                'quote',
+                'author',
+            ])
         );
 
-        return response()->json([
-            'status' => $status,
-            'message' => $status ? 'Team member updated!' : 'Error updating team member'
-        ]);
+        $member->save();
+
+        return $member;
+
     }
 
-    public function destroy(Team $member)
+    public function destroy($id)
     {
-        $status = $member->delete();
-
-        return response()->json([
-            'status' => $status,
-            'message' => $status ? 'Team member Deleted!' : 'Error deleting team member'
-        ]);
+        return Team::findOrFail($id)->delete();
     }
 }
