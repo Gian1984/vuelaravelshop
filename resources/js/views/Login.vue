@@ -1,6 +1,6 @@
 <template>
-    <div class="min-h-screen bg-white flex">
-        <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+    <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-m">
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <div>
                     <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
@@ -17,7 +17,7 @@
                                     Email address
                                 </label>
                                 <div class="mt-1">
-                                    <input id="email" name="email" type="email"  v-model="email" autocomplete="email" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                    <input id="email" name="email" type="email" :rules="emailRules" v-model="email" autocomplete="email" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                 </div>
                             </div>
 
@@ -26,7 +26,7 @@
                                     Password
                                 </label>
                                 <div class="mt-1">
-                                    <input id="password" name="password" type="password"  v-model="password" autocomplete="current-password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                    <input id="password" name="password" type="password" :rules="passwordRules" v-model="password" autocomplete="current-password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                 </div>
                             </div>
 
@@ -52,21 +52,50 @@
                             </div>
                         </form>
                     </div>
+                    <div v-if="errorLogin  != 0" class="rounded-md bg-red-50 p-4 mt-10">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <XCircleIcon class="h-5 w-5 text-red-400" aria-hidden="true" />
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-red-800">
+                                    There were errors with your submission
+                                </h3>
+                                <div class="mt-2 text-sm text-red-700">
+                                    {{ errorLogin  }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="hidden lg:block relative w-0 flex-1">
-            <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80" alt="" />
         </div>
     </div>
 </template>
 
 <script>
+import { XCircleIcon } from '@heroicons/vue/solid'
+
+
 export default {
+
+    components: {
+        XCircleIcon,
+    },
+
     data() {
         return {
             email: "",
-            password: ""
+            emailRules: [
+                v => !!v || 'E-mail is required',
+                v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            ],
+            password: "",
+            passwordRules: [
+                v => !!v || 'Password is required',
+                v => (v && v.length >= 6) || 'Password must be more than 6 characters',
+            ],
+            errorLogin :"",
         }
     },
     methods: {
@@ -91,6 +120,8 @@ export default {
                             this.$router.push((is_admin == 1 ? 'Admin' : '/'))
                         }
                     }
+                }).catch((error)=>{
+                    this.errorLogin = error.response.data.error
                 });
             }
         }

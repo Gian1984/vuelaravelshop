@@ -22,15 +22,35 @@
                             </div>
                         </div>
                         <div class="hidden md:flex md:items-center md:space-x-6">
-                            <a href="/Login"  class="text-base font-medium text-white hover:text-gray-300">
-                                Sign in
-                            </a>
-                            <a href="/Register"  class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
-                                Sign up
-                            </a>
-                            <a href="/"  v-if="isLoggedIn" @click="logout" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
-                                Log out
-                            </a>
+
+                                <Menu as="div" class="relative inline-block text-left">
+                                    <div>
+                                        <MenuButton class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+                                            User
+                                            <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+                                        </MenuButton>
+                                    </div>
+
+                                    <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                                        <MenuItems class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none">
+                                            <div class="py-1">
+                                                <MenuItem v-slot="{ active }">
+                                                    <a href="/Login" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Login</a>
+                                                </MenuItem>
+                                                <MenuItem v-slot="{ active }">
+                                                    <a href="/Register" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Register</a>
+                                                </MenuItem>
+                                                <MenuItem v-slot="{ active }">
+                                                    <a href="/" @click="logout" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Log out</a>
+                                                </MenuItem>
+                                            </div>
+                                        </MenuItems>
+                                    </transition>
+                                </Menu>
+
+
+
+
                         </div>
                     </nav>
                 </div>
@@ -54,10 +74,13 @@
                                     <a v-for="item in navigation" :key="item.name" :href="item.href" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">{{ item.name }}</a>
                                 </div>
                                 <div class="mt-6 px-5">
-                                    <a href="#" class="block text-center w-full py-3 px-4 rounded-md shadow bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-medium hover:from-teal-600 hover:to-cyan-700">Start free trial</a>
+                                    <a href="/Register" class="block text-center w-full py-3 px-4 rounded-md shadow bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-medium hover:from-teal-600 hover:to-cyan-700">Register</a>
                                 </div>
                                 <div class="mt-6 px-5">
-                                    <p class="text-center text-base font-medium text-gray-500">Existing customer? <a href="#" class="text-gray-900 hover:underline">Login</a></p>
+                                    <a href="/" v-if="isLoggedIn" @click="logout" class="block text-center w-full py-3 px-4 rounded-md shadow bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-medium hover:from-teal-600 hover:to-cyan-700">Log out</a>
+                                </div>
+                                <div class="mt-6 px-5">
+                                    <p class="text-center text-base font-medium text-gray-500">Existing customer? <a href="/Login" class="text-gray-900 hover:underline">Login</a></p>
                                 </div>
                             </div>
                         </div>
@@ -161,12 +184,9 @@
 
 <script>
 import { defineComponent, h } from 'vue'
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
-import {
-    MenuIcon,
-    XIcon,
-} from '@heroicons/vue/outline'
-import { ChevronRightIcon, ExternalLinkIcon } from '@heroicons/vue/solid'
+import { Popover, PopoverButton, PopoverPanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import {MenuIcon, XIcon } from '@heroicons/vue/outline'
+import { ChevronRightIcon, ExternalLinkIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 
 const navigation = [
     { name: 'Home', href: '/' },
@@ -314,6 +334,11 @@ export default {
         Popover,
         PopoverButton,
         PopoverPanel,
+        Menu,
+        MenuButton,
+        MenuItem,
+        MenuItems,
+        ChevronDownIcon,
         ChevronRightIcon,
         ExternalLinkIcon,
         MenuIcon,

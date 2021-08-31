@@ -42,34 +42,61 @@
         </div>
     </div>
 
-    <ul class="my-10 px-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <li v-for="product in products" :key="product.index" class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
-            <div class="flex-1 flex flex-col p-8">
-                <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" :src="product.image" alt="" />
-                <h3 class="mt-6 text-gray-900 text-sm font-medium">{{product.id}} {{ product.name }}</h3>
-                <dl class="mt-1 flex-grow flex flex-col justify-between">
-                    <dt class="sr-only">Title</dt>
-                    <dd class="text-gray-500 text-sm">€ {{ product.price }}</dd>
-                    <dt class="sr-only">Role</dt>
-                    <dd class="mt-3">
-                        <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Pcs. {{ product.units }}</span>
-                    </dd>
-                </dl>
-            </div>
-            <div>
-                <div class="-mt-px flex divide-x divide-gray-200">
-                    <div class="w-0 flex-1 flex">
-                        <router-link :to=" '/products/' + product.id " class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
-                            <SearchIcon class="w-5 h-5 text-gray-400" aria-hidden="true" />
-                            <span class="ml-3">View</span>
-                        </router-link>
+<!--    <ul class="my-10 px-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">-->
+<!--        <li v-for="product in products" :key="product.index" class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">-->
+<!--            <div class="flex-1 flex flex-col p-8">-->
+<!--                <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" :src="product.image" alt="" />-->
+<!--                <h3 class="mt-6 text-gray-900 text-sm font-medium">{{product.id}} {{ product.name }}</h3>-->
+<!--                <dl class="mt-1 flex-grow flex flex-col justify-between">-->
+<!--                    <dt class="sr-only">Title</dt>-->
+<!--                    <dd class="text-gray-500 text-sm">€ {{ product.price }}</dd>-->
+<!--                    <dt class="sr-only">Role</dt>-->
+<!--                    <dd class="mt-3">-->
+<!--                        <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Pcs. {{ product.units }}</span>-->
+<!--                    </dd>-->
+<!--                </dl>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <div class="-mt-px flex divide-x divide-gray-200">-->
+<!--                    <div class="w-0 flex-1 flex">-->
+<!--                        <router-link :to=" '/products/' + product.id " class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">-->
+<!--                            <SearchIcon class="w-5 h-5 text-gray-400" aria-hidden="true" />-->
+<!--                            <span class="ml-3">View</span>-->
+<!--                        </router-link>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </li>-->
+<!--    </ul>-->
+
+    <div class="bg-white">
+        <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+            <h2 class="text-xl font-bold text-gray-900">Customers also bought</h2>
+
+            <div class="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                <div v-for="(product,index) in products" @key="index">
+                    <div class="relative">
+                        <div class="relative w-full h-72 rounded-lg overflow-hidden">
+                            <img :src="product.image" class="w-full h-full object-center object-cover" />
+                        </div>
+                        <div class="relative mt-4">
+                            <h3 class="text-sm font-medium text-gray-900">{{ product.name }}</h3>
+                            <p class="mt-1 text-sm text-gray-500">Qnt. {{ product.units }}</p>
+                        </div>
+                        <div class="absolute top-0 inset-x-0 h-72 rounded-lg p-4 flex items-end justify-end overflow-hidden">
+                            <div aria-hidden="true" class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50" />
+                            <p class="relative text-lg font-semibold text-white">€ {{ product.price }}</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a :href="'/products/' + product.id" class="relative flex bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200"
+                        ><SearchIcon class="w-5 h-5 text-gray-400" aria-hidden="true" />View<span class="sr-only">, {{ product.name }}</span></a
+                        >
                     </div>
                 </div>
             </div>
-        </li>
-    </ul>
-
-
+        </div>
+    </div>
 
 
     <!-- Blog section -->

@@ -17,7 +17,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $status = 401;
-        $response = ['error' => 'Unauthorised'];
+        $response = ['error' => 'Wrong password or user name please try again.'];
 
         if (Auth::attempt($request->only(['email', 'password']))) {
             $status = 200;
@@ -34,13 +34,13 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:50',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
             'c_password' => 'required|same:password',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return response()->json( $validator->errors(), 401);
         }
 
         $data = $request->only(['name', 'email', 'password']);
