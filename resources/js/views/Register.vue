@@ -66,7 +66,7 @@
                                     There were errors with your submission:
                                 </h3>
                                 <div class="mt-2 text-sm text-red-700" v-for="(errorRegister,index) in errorsRegister" @key="index">
-                                    {{errorRegister}}
+                                    {{errorRegister[0]}}
                                 </div>
                             </div>
                         </div>

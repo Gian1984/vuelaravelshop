@@ -43105,7 +43105,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
       "class": "mt-2 text-sm text-red-700",
       onKey: index
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(errorRegister), 41
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(errorRegister[0]), 41
     /* TEXT, PROPS, HYDRATE_EVENTS */
     , ["onKey"]);
   }), 256
