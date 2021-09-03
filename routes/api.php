@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +23,10 @@ Route::get('delete/{id}',[ProductController::class,'deliverOrder']);
 
 Route::post('login', [UserController::class,'login']);
 Route::post('register', [UserController::class,'register']);
+
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm']);
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm']);
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm']);
 
 Route::get('/products', [ProductController::class,'index']);
 Route::post('/upload-file', [ProductController::class,'uploadFile']);
@@ -52,3 +56,4 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::resource('/team', TeamController::class)->except(['index', 'show']);
 });
+
