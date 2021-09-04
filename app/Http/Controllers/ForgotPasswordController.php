@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -16,15 +15,6 @@ class ForgotPasswordController extends Controller
 
     public function submitForgetPasswordForm(Request $request)
     {
-
-//        $validator = Validator::make($request->all(), [
-//            'email' => 'required|email|unique:users',
-//        ]);
-//
-//        if ($validator->fails()) {
-//            return response()->json( $validator->errors());
-//        }
-
         $request->validate([
             'email' => 'required|email|exists:users',
         ]);
@@ -70,7 +60,7 @@ class ForgotPasswordController extends Controller
         if(!$updatePassword){
 
             $validator = ['error' => 'Invalid token!'];
-            return response()->json($validator);
+            return response()->json($validator, 401);
 
 //            return redirect()->back()->withInput()->with('errors', 'Invalid token!');
 //
