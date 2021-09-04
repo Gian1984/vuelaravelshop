@@ -25,7 +25,6 @@ Route::post('login', [UserController::class,'login']);
 Route::post('register', [UserController::class,'register']);
 
 Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm']);
-Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm']);
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm']);
 
 Route::get('/products', [ProductController::class,'index']);

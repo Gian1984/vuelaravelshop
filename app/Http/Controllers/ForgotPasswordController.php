@@ -17,13 +17,17 @@ class ForgotPasswordController extends Controller
     public function submitForgetPasswordForm(Request $request)
     {
 
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-        ]);
+//        $validator = Validator::make($request->all(), [
+//            'email' => 'required|email|unique:users',
+//        ]);
+//
+//        if ($validator->fails()) {
+//            return response()->json( $validator->errors());
+//        }
 
-        if ($validator->fails()) {
-            return response()->json( $validator->errors());
-        }
+        $request->validate([
+            'email' => 'required|email|exists:users',
+        ]);
 
         $token = Str::random(64);
 
@@ -52,7 +56,7 @@ class ForgotPasswordController extends Controller
     {
         $request->validate([
             'email' => 'required|email|exists:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required'
         ]);
 
@@ -67,6 +71,10 @@ class ForgotPasswordController extends Controller
 
             $validator = ['error' => 'Invalid token!'];
             return response()->json($validator);
+
+//            return redirect()->back()->withInput()->with('errors', 'Invalid token!');
+//
+
         }
 
         $user = User::where('email', $request->email)

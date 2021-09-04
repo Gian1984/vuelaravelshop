@@ -52,17 +52,41 @@
                     </div>
                 </div>
             </div>
+
+            <div v-if="errors != 0" class="rounded-md bg-red-50 p-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <XCircleIcon class="h-5 w-5 text-red-400" aria-hidden="true" />
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">
+                            Invalid email please try again.
+                        </h3>
+                    </div>
+                    <div class="ml-auto pl-3">
+                        <div class="-mx-1.5 -my-1.5">
+                            <button v-on:click="errors = 0" type="button" class="inline-flex bg-red-50 rounded-md p-1.5 text-red-800 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600">
+                                <span class="sr-only">Dismiss</span>
+                                <XIcon class="h-5 w-5" aria-hidden="true" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>
 
 <script>
-import { LockClosedIcon, CheckCircleIcon } from '@heroicons/vue/solid'
+import { LockClosedIcon, CheckCircleIcon, XCircleIcon, XIcon } from '@heroicons/vue/solid'
 
 export default {
     components: {
         LockClosedIcon,
-        CheckCircleIcon
+        CheckCircleIcon,
+        XCircleIcon,
+        XIcon
     },
 
     data() {
@@ -85,10 +109,6 @@ export default {
 
                 axios.post('api/forget-password',{email}).then(response=>{
                     this.validation = response.data.message
-                    // if(this.validation)
-                    // {
-                    //     this.$router.push({ path: "/" });
-                    // }
                 }).catch((error)=>{
                     this.errors = error
                 });

@@ -12,6 +12,7 @@ import SingleProduct from "./views/SingleProduct";
 import UserBoard from "./views/UserBoard";
 import Company from "./views/Company";
 import ForgetPassword from "./views/ForgetPassword";
+import ResetPassword from "./views/ResetPassword";
 
 
 const router = createRouter({
@@ -96,6 +97,11 @@ const router = createRouter({
             path: "/forgetpassword",
             name: "Forgetpassword",
             component: ForgetPassword,
+        },
+        {
+            path: "/reset-password/:token",
+            name: "Reset-password",
+            component: ResetPassword,
         },
     ]
 })
