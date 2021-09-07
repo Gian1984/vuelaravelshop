@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Order;
 
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
+    use HasFactory, Notifiable, SoftDeletes, HasApiTokens, Billable;
 
     /**
      * The attributes that are mass assignable.

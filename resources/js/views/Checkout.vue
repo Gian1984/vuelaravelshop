@@ -208,6 +208,18 @@
                                                         <input type="text" name="zip" v-model="zip" id="zip" autocomplete="postal-code" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                                                     </div>
                                                 </div>
+
+                                                <h2 class="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                                                    Payment details
+                                                </h2>
+
+                                                <div class="sm:col-span-6">
+                                                    <label for="card-number" class="block text-sm font-medium text-gray-700">Card number</label>
+                                                    <div class="mt-5">
+                                                        <div id="card-element"></div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -234,12 +246,26 @@
 
 <script>
 
+import { loadStripe } from '@stripe/stripe-js';
 
 export default {
 
 
+
     data(){
         return {
+            stripe: {},
+            cardElement: {},
+            customer: {
+                firstname: '',
+                lastname: '',
+                email: '',
+                address: '',
+                city: '',
+                country: '',
+                zip: ''
+            },
+            paymentProcessing: false,
             phone : "",
             firstname : "",
             lastname : "",
@@ -255,8 +281,16 @@ export default {
             pid: this.$route.params.id
         }
     },
-    mounted() {
+    async mounted() {
         this.isLoggedIn = localStorage.getItem('bigStore.jwt') != null
+        this.stripe = await loadStripe(process.env.MIX_STRIPE_KEY);
+        const elements = this.stripe.elements();
+        this.cardElement = elements.create('card', {
+            classes: {
+                base: 'rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 p-3 leading-8 transition-colors duration-200 ease-in-out'
+            }
+        });
+        this.cardElement.mount('#card-element');
     },
     beforeMount() {
         axios.get('/api/products/'+ this.pid).then(response => this.product = response.data)
@@ -267,6 +301,7 @@ export default {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('bigStore.jwt')
         }
     },
+
     methods : {
         login() {
             this.$router.push({name: 'Login', params: {nextUrl: this.$route.fullPath}})
@@ -274,22 +309,60 @@ export default {
         register() {
             this.$router.push({name: 'Register', params: {nextUrl: this.$route.fullPath}})
         },
-        placeOrder(e) {
+
+        async placeOrder(e) {
             e.preventDefault()
+
+            this.paymentProcessing = true;
 
             let address = this.firstname+' '+this.lastname+' '+this.address+' '+this.city+' '+this.province+' '+this.country+' '+this.zip+' '+this.phone+' '+this.email
             let product_id = this.product.id
             let quantity = this.quantity
 
-            axios.post('/api/orders/', {address, quantity, product_id})
-                .then(response => this.$router.push('/confirmation'))
+            const {paymentMethod, error} = await this.stripe.createPaymentMethod(
+                'card', this.cardElement, {
+                    billing_details: {
+                        name: this.firstname+ ' ' + +this.lastname,
+                        email: this.email,
+                        address: {
+                            line1: this.address,
+                            city: this.city,
+                            state: this.country,
+                            postal_code: this.zip
+                        }
+                    }
+                }
+            );
+
+            if (error) {
+                this.paymentProcessing = false;
+                console.error(error);
+            } else {
+                console.log(paymentMethod);
+                this.customer.amount = this.product.price * this.quantity;
+                // axios.post('/api/purchase', this.customer)
+                axios.post('/api/orders/', {address, quantity, product_id})
+                    .then((response) => {
+                        this.paymentProcessing = false;
+                        console.log(response);
+                        this.$router.push({ name: '/confirmation' });
+                    })
+                    .catch((error) => {
+                        this.paymentProcessing = false;
+                        console.error(error);
+                    });
+            }
+        },
+
+            // axios.post('/api/orders/', {address, quantity, product_id})
+            //     .then(response => this.$router.push('/confirmation'))
         },
         checkUnits(e){
+            e.preventDefault()
             if (this.quantity > this.product.units) {
                 this.quantity = this.product.units
             }
         }
-    },
 
 }
 </script>
