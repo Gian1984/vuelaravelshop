@@ -57,14 +57,14 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                   <span class="inline-flex text-xs leading-5 font-semibold">
-                                    <label class="row"><span class="col-md-2 float-left"></span><input type="number" name="units" min="1" :max="product.units" class="col-md-2 float-left" v-model="quantity" @change="checkUnits"></label>
+                                    <label class="row"><span class="col-md-2 float-left"></span><input type="number" name="units" min="1" :max="product.units" class="col-md-2 float-left" v-model="customer.quantity" @change="checkUnits"></label>
                                   </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     € {{ product.price }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    € {{this.quantity * product.price}}
+                                    € {{this.customer.quantity * product.price}}
                                 </td>
                             </tr>
                             </tbody>
@@ -128,7 +128,7 @@
                                                         First name
                                                     </label>
                                                     <div class="mt-1">
-                                                        <input type="text" v-model="firstname" name="first-name" id="first-name" autocomplete="given-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                                                        <input type="text" v-model="customer.firstname" name="first-name" id="first-name" autocomplete="given-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                                                     </div>
                                                 </div>
 
@@ -137,7 +137,7 @@
                                                         Last name
                                                     </label>
                                                     <div class="mt-1">
-                                                        <input type="text" v-model="lastname" name="last-name" id="last-name" autocomplete="family-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                                                        <input type="text" v-model="customer.lastname" name="last-name" id="last-name" autocomplete="family-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                                                     </div>
                                                 </div>
 
@@ -146,7 +146,7 @@
                                                         Email address
                                                     </label>
                                                     <div class="mt-1">
-                                                        <input id="email" name="email" v-model="email" type="email" autocomplete="email" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                                                        <input id="email" name="email" v-model="customer.email" type="email" autocomplete="email" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                                                     </div>
                                                 </div>
 
@@ -155,7 +155,7 @@
                                                         Phone
                                                     </label>
                                                     <div class="mt-1">
-                                                        <input id="phone" name="phone" v-model="phone" type="number" autocomplete="phone" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                                                        <input id="phone" name="phone" v-model="customer.phone" type="number" autocomplete="phone" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                                                     </div>
                                                 </div>
 
@@ -164,7 +164,7 @@
                                                         Country / Region
                                                     </label>
                                                     <div class="mt-1">
-                                                        <select id="country" name="country" v-model="country" autocomplete="country" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                                        <select id="country" name="country" v-model="customer.country" autocomplete="country" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                                             <option>United States</option>
                                                             <option>Canada</option>
                                                             <option>Mexico</option>
@@ -178,7 +178,7 @@
                                                         Street address
                                                     </label>
                                                     <div class="mt-1">
-                                                        <input type="text" v-model="address" name="street-address" id="street-address" autocomplete="street-address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                                                        <input type="text" v-model="customer.address" name="street-address" id="street-address" autocomplete="street-address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                                                     </div>
                                                 </div>
 
@@ -187,7 +187,7 @@
                                                         City
                                                     </label>
                                                     <div class="mt-1">
-                                                        <input type="text" name="city" v-model="city" id="city" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                                                        <input type="text" name="city" v-model="customer.city" id="city" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                                                     </div>
                                                 </div>
 
@@ -196,7 +196,7 @@
                                                         State / Province
                                                     </label>
                                                     <div class="mt-1">
-                                                        <input type="text" name="state" v-model="province" id="state" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                                                        <input type="text" name="state" v-model="customer.province" id="state" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                                                     </div>
                                                 </div>
 
@@ -205,7 +205,7 @@
                                                         ZIP / Postal
                                                     </label>
                                                     <div class="mt-1">
-                                                        <input type="text" name="zip" v-model="zip" id="zip" autocomplete="postal-code" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                                                        <input type="text" name="zip" v-model="customer.zip" id="zip" autocomplete="postal-code" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                                                     </div>
                                                 </div>
 
@@ -233,6 +233,21 @@
                                     </div>
                                 </form>
 
+                                <div v-if="error  != 0" class="rounded-md bg-red-50 p-4 mt-10">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <XCircleIcon class="h-5 w-5 text-red-400" aria-hidden="true" />
+                                        </div>
+                                        <div class="ml-3">
+                                            <h3 class="text-sm font-medium text-red-800">
+                                                There were errors with your payment!
+                                            </h3>
+                                            <div class="mt-2 text-sm text-red-700">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
                             </div>
@@ -247,9 +262,13 @@
 <script>
 
 import { loadStripe } from '@stripe/stripe-js';
+import { XCircleIcon } from '@heroicons/vue/solid';
 
 export default {
 
+    components: {
+        XCircleIcon,
+    },
 
 
     data(){
@@ -263,19 +282,13 @@ export default {
                 address: '',
                 city: '',
                 country: '',
-                zip: ''
+                zip: '',
+                phone : "",
+                province : "",
+                quantity : 1,
             },
             paymentProcessing: false,
-            phone : "",
-            firstname : "",
-            lastname : "",
-            email : "",
-            city : "",
-            country : "",
-            province : "",
-            zip : "",
-            address : "",
-            quantity : 1,
+            error:'',
             isLoggedIn : null,
             product : [],
             pid: this.$route.params.id
@@ -315,20 +328,18 @@ export default {
 
             this.paymentProcessing = true;
 
-            let address = this.firstname+' '+this.lastname+' '+this.address+' '+this.city+' '+this.province+' '+this.country+' '+this.zip+' '+this.phone+' '+this.email
-            let product_id = this.product.id
-            let quantity = this.quantity
+
 
             const {paymentMethod, error} = await this.stripe.createPaymentMethod(
                 'card', this.cardElement, {
                     billing_details: {
-                        name: this.firstname+ ' ' + +this.lastname,
-                        email: this.email,
+                        name: this.customer.firstname+ ' ' +this.customer.lastname,
+                        email: this.customer.email,
                         address: {
-                            line1: this.address,
-                            city: this.city,
-                            state: this.country,
-                            postal_code: this.zip
+                            line1: this.customer.address,
+                            city: this.customer.city,
+                            state: this.customer.country,
+                            postal_code: this.customer.zip
                         }
                     }
                 }
@@ -338,24 +349,30 @@ export default {
                 this.paymentProcessing = false;
                 console.error(error);
             } else {
+
                 console.log(paymentMethod);
-                this.customer.amount = this.product.price * this.quantity;
-                // axios.post('/api/purchase', this.customer)
-                axios.post('/api/orders/', {address, quantity, product_id})
+                let customer = this.customer
+                let amount = (this.product.price * this.customer.quantity)*100;
+                let payment_method_id = paymentMethod.id;
+
+                let product_id = this.product.id
+
+                let address = this.customer.firstname+' '+this.customer.lastname+' '+this.customer.address+' '+this.customer.city+' '+this.customer.zip+' '+this.customer.country
+                let quantity = this.customer.quantity
+
+                axios.post('/api/orders/', {address, quantity, product_id, customer, amount, payment_method_id})
                     .then((response) => {
                         this.paymentProcessing = false;
                         console.log(response);
-                        this.$router.push({ name: '/confirmation' });
+                        this.$router.push({ name: 'Confirmation' });
                     })
                     .catch((error) => {
                         this.paymentProcessing = false;
-                        console.error(error);
+                        this.error = error.response.data.message;
                     });
             }
         },
 
-            // axios.post('/api/orders/', {address, quantity, product_id})
-            //     .then(response => this.$router.push('/confirmation'))
         },
         checkUnits(e){
             e.preventDefault()
